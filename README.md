@@ -1,6 +1,6 @@
 # DATA 543 FinalProject
 ### Group Members: Sean Gibson, Jeanelle McLeod, Andrew Stepanian
-### Topic: The financial risk posed by harmful algal blooms (HABs) to commerical fisheries in the Pamlico and Albemarle Sounds
+### Topic: The risk posed by harmful algal blooms (HABs) to commerical fisheries in the Pamlico and Albemarle Sounds
 
 ## BACKGROUND
 Harmful algal blooms, which are becoming increasingly common in coastal and estuarine environments, are mainly driven by nutrient pollution, rising temperatures, and changing hydrological conditions. As the climate warms, higher water temperatures create ideal conditions for algae to thrive. These blooms can produce toxins and deplete oxygen levels, leading to fish kills, ecosystem disruption, and economic impacts. North Carolina is known for its agricultural activity, as it experiences significant nutrient runoff from farms, which is a leading cause of HABs. It is home to a wide range of water sources ranging from large freshwater lakes in the central regions to estuaries along the coast – many of which are exposed to anthropogenic nutrient pollution from farmlands close to the waters. HABs are one of the most relevant environmental threats impacting North Carolina's coastal communities and the fisheries that support them. On top of economic pressures facing communtiies like tariffs, HABs can influence seafood prices by disrupting harvests. Consequently, when landings decrease due to algae bloom impacts, a lack of supply can cause an increase in market prices. 
@@ -44,7 +44,50 @@ The final dataset used to build the classification model consists of 6 variables
 ## ANALYSIS
 
 ```
+import pandas as pd
 
+## Load the dataset
+df = pd.read_csv('DATA543_ModelDataset.csv')
+
+## Select features and target
+## We're using month, mean chlorophyll-a concentrations, and mean nutrient concentrations as our predictor variables
+## Our target is the bloom variable because this is what we're trying to predict
+
+features = ['Month', 'Mean_Chlorophyll_Conc', 'Mean_Nutrient_Conc']
+target = 'Bloom'
+
+X = df[features]
+y = df[target]
+```
+
+```
+from sklearn.model_selection import train_test_split
+
+## 80% training data, 20% testing data split
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+```
+
+```
+## Using xgboost package since our data is unbalanced (considerably more 0s than 1s)
+!pip install xgboost
+import xgboost as xgb
+from sklearn.metrics import classification_report, confusion_matrix
+
+## Create the classifier
+model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='logloss')
+
+## Train the model
+model.fit(X_train, y_train)
+
+## Predict algal bloom occurrence based on predictor variables
+y_pred = model.predict(X_test)
+
+## Evaluate the performance of the model
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
 ```
 ## CONCLUSIONS
 
