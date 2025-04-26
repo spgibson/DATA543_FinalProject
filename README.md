@@ -35,6 +35,9 @@ The original plan for our analysis was to build a classification model that coul
 
 Given the lack of well-distributed water temperature data in our study region, we decided to use month as a proxy for water temperature, making the assumption that summer months would have warmer water temperatures, and winter months would have cooler water temperatures (or some other seasonal relationship). A new ‘Month’ variable was added to each dataset so that each observation or sample had an associated number representing the month it was taken or recorded. Then, each dataset – the algal bloom observations, nutrient samples, and chlorophyll-a samples – were filtered to the study area (the Pamlico and Albemarle Sound region). Using ArcGIS Pro, we divided our study area into a grid of 25 equal-sized cells and joined each of the datasets to the grid so that each algal bloom observation, nutrient sample, and chlorophyll-a sample had an associated grid cell. Then, for each grid cell, the mean chlorophyll-a and nutrient concentrations were calculated for each month. Finally, the algal bloom observation dataset was joined to these statistics so that the number of algal blooms observed in each grid cell across each month was recorded. Additionally, a ‘Bloom’ variable was created so that if an algal bloom observation had occurred during a given month in a given grid cell, this would be represented by a 1; month and grid cell combinations which did not have an algal bloom observance were assigned a 0.
 
+Figure 2: Study Area Grid Layout
+![](StudyArea.jpg)
+
 The final dataset used to build the classification model consists of 6 variables: 
 * Grid_ID (the unique grid identification number assigned to each grid cell of the study area region - numbered 1 through 25)
 * Month (month of the year a concentration or observation was recorded - numbered 1 through 12)
