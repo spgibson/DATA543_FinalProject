@@ -1,4 +1,4 @@
-# DATA 543 FinalProject
+# DATA 543 Final Project
 ### Group Members: Sean Gibson, Jeanelle McLeod, Andrew Stepanian
 ### Topic: The risk posed by harmful algal blooms (HABs) to commerical fisheries in the Pamlico and Albemarle Sounds
 
@@ -88,6 +88,13 @@ y_pred = model.predict(X_test)
 ## Evaluate the performance of the model
 print(classification_report(y_test, y_pred))
 print(confusion_matrix(y_test, y_pred))
+```
+
+```
+import matplotlib.pyplot as plt
+
+xgb.plot_importance(model)
+plt.show()
 ```
 ## CONCLUSIONS
 
